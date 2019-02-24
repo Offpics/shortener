@@ -61,7 +61,7 @@ def index(request):
             while True:
                 # Iterate over the hash and try to create short URL.
                 for i in range(0, len(short)-short_len, short_len):
-                    short_tmp = short[i:i+7]
+                    short_tmp = short[i:i+short_len]
                     try:
                         Short.objects.create(url=url, short=short_tmp)
                     except IntegrityError:
