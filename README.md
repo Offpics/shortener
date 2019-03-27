@@ -19,6 +19,4 @@ In case of a collision it tries to extract next 7 characters and in really rare 
 
 - With a lot of URLs in the database, the current algorithm of generating shorts would be really inefficient. There are a lot of options to tackle this problem. For example, we could use base64 or base62 encoding to generate unique short URLs with more possible characters, which would result in more possible combinations of short URLs.
 
-- There is some possible repetition that could be exploited. For example, URLs like example.com and example.com/ will be stored as 2 different shorts but are the same site.
-
 - To avoid spambots consider adding CAPTCHA defense.
