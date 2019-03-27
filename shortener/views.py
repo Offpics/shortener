@@ -1,5 +1,6 @@
 from hashlib import md5
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.utils import IntegrityError
@@ -27,12 +28,6 @@ def index(request):
         if form.is_valid():
             # Get clean URL from the form.
             url = form.cleaned_data.get('url')
-
-            # Remove any unnecessary parts from the URL
-            # to avoid repetiton in the database.
-            url = url.replace('http://', '')
-            url = url.replace('https://', '')
-            url = url.replace('www.', '')
 
             # Check wheter URL already exists in the database.
             # If it exists return early without calculating the short.
@@ -103,7 +98,10 @@ def short(request, short):
         redirect_url = data.url
 
         # Redirect user to the original URL.
-        return redirect(f'http://{redirect_url}')
+        if '://' not in redirect_url:
+            return redirect(f'http://{redirect_url}')
+        else:
+            return redirect(redirect_url)
     except Short.DoesNotExist:
         # Display warning to the user and redirect to index page.
         messages.warning(request, f'Short URL: {short} does not exist.')
